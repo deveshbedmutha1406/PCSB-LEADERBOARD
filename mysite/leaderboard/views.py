@@ -7,6 +7,22 @@ from .models import Leader,Attendace
 from django.core.files.storage import FileSystemStorage
 # Create your views here.
 
+def score(request):
+
+    d1 = {} # d1 is having key value pairs
+
+    data = Leader.objects.all()  # bring all student data.
+
+    for objects in data:
+        d1[objects.name] = objects.points
+    print(d1)
+    context = {
+        "dict":d1
+    }
+
+    return render(request, 'leaderboard/score.html', context)
+
+
 def main(request):
     # taking form from front end file
     if request.method == "POST":
@@ -54,12 +70,7 @@ def main(request):
                 m = Leader.objects.create(name=ele,points=0)
                 m.save()
 
-        d1 = {} # d1 is having key value pairs
-        data = Leader.objects.all()
-
-        for objects in data:
-            d1[objects.name] = objects.points
-        print(d1)
+ 
 
         # sorting of dicitoinary remaining.
 
